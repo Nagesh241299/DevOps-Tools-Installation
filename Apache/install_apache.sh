@@ -24,7 +24,8 @@ sudo systemctl status apache2
 
 echo "Apache with mod_proxy setup completed successfully."
 
-
+echo "Access Apache at: http://<$(curl -s ifconfig.me)>:80"
+echo "Private IP: $(hostname -I)"; echo "Public IP: $(curl -s ifconfig.me)"
 
 ## Disable default site if needed
 #sudo a2dissite 000-default.conf

@@ -29,7 +29,8 @@ FLUSH PRIVILEGES;
 MYSQL_SCRIPT
 
 # 6. Open MySQL port in the firewall
-sudo ufw allow 3306/tcp
+#sudo ufw allow 3306/tcp
+#3306
 
 echo "MySQL installation and public access configuration complete."
 echo "Remote user: $MYSQL_USER"

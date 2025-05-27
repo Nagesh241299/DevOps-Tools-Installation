@@ -25,3 +25,5 @@ echo "Installed Nginx version:"
 nginx -v
 
 echo "Nginx installation and setup completed successfully."
+echo "Access Nginx at: http://<$(curl -s ifconfig.me)>:80"
+echo "Private IP: $(hostname -I)"; echo "Public IP: $(curl -s ifconfig.me)"
