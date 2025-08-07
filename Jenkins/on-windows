@@ -1,0 +1,37 @@
+@echo off
+
+REM Install OpenJDK (AdoptOpenJDK/Temurin) - Adjust version/url if needed
+set JAVA_MSI_URL=https://github.com/adoptium/temurin17-binaries/releases/latest/download/OpenJDK17U-jdk_x64_windows_hotspot_17.msi
+set JAVA_MSI_FILE=%TEMP%\openjdk17.msi
+
+REM Download Java 17 MSI
+echo Downloading Java 17...
+powershell -Command "[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; Invoke-WebRequest -Uri '%JAVA_MSI_URL%' -OutFile '%JAVA_MSI_FILE%'"
+
+REM Install Java 17 silently
+msiexec.exe /i "%JAVA_MSI_FILE%" /qn /norestart
+
+REM Set JAVA_HOME and update PATH
+setx JAVA_HOME "C:\Program Files\Eclipse Adoptium\jdk-17"
+setx PATH "%PATH%;C:\Program Files\Eclipse Adoptium\jdk-17\bin"
+
+REM Confirm Java installation
+java -version
+IF %ERRORLEVEL% NEQ 0 (
+    echo Java installation failed.
+    exit /b 1
+)
+
+REM Jenkins installation
+set JENKINS_MSI_URL=https://get.jenkins.io/windows-stable/jenkins.msi
+set JENKINS_MSI_FILE=%TEMP%\jenkins.msi
+
+echo Downloading Jenkins MSI...
+powershell -Command "[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; Invoke-WebRequest -Uri '%JENKINS_MSI_URL%' -OutFile '%JENKINS_MSI_FILE%'"
+
+REM Silent install Jenkins
+msiexec.exe /i "%JENKINS_MSI_FILE%" /qn /norestart INSTALLDIR="C:\Jenkins" JENKINS_PORT=8080
+
+echo Jenkins and Java installation complete.
+REM Open http://localhost:8080 to begin Jenkins setup.
+pause
